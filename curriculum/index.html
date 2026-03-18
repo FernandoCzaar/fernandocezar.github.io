@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fernando Cézar — Portfólio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f5f3;
+      --gray-100: #e8e8e6;
+      --gray-300: #c0c0bc;
+      --gray-500: #888884;
+      --gray-700: #444440;
+      --accent: #0a0a0a;
+      --line: rgba(0,0,0,0.1);
+      --font-body: 'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono: 'DM Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      background: rgba(245,245,243,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--line); }
+
+    .nav-logo {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-700);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--black);
+      transition: all 0.3s;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 6rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 10vh;
+    }
+
+    .hero-name {
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--black);
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gray-500);
+    }
+
+    .hero-meta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--gray-500);
+      text-transform: uppercase;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--gray-300);
+    }
+
+    .scroll-hint {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 3rem;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: #0a0a0a;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .scroll-hint::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: var(--gray-300);
+    }
+    .scroll-hint.hidden { opacity: 0; }
+
+    /* ── SECTION HEADERS ── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 48px;
+      height: 1px;
+      background: var(--gray-300);
+    }
+
+    /* ── SOBRE ── */
+    .about-text {
+      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--black);
+      max-width: 640px;
+    }
+    .about-text p + p { margin-top: 1.5rem; }
+
+    .about-highlight {
+      font-weight: 500;
+      border-bottom: 1px solid var(--black);
+    }
+
+    /* ── HABILIDADES ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-right: 15px;
+    }
+
+    .skill-item {
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .skill-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    .skill-desc {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      font-weight: 300;
+    }
+
+    .skill-category {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-300);
+      margin-top: 0.2rem;
+    }
+
+    /* ── CONTATO ── */
+    .contact-intro {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--gray-700);
+      margin-bottom: 3rem;
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--black);
+      transition: padding-left 0.25s ease;
+    }
+    .contact-link:hover { padding-left: 0.75rem; }
+
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .contact-link-value {
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .contact-arrow {
+      font-size: 0.9rem;
+      color: var(--gray-300);
+      transition: color 0.2s, transform 0.2s;
+    }
+    .contact-link:hover .contact-arrow {
+      color: var(--black);
+      transform: translateX(4px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 3rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer span {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--gray-500);
+    }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE MENU ── */
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem 1.5rem; }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--white);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1rem; }
+      .nav-toggle { display: flex; z-index: 101; }
+
+      section { padding: 7rem 1.5rem 4rem; }
+
+      .hero-name { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+      .hero-meta { flex-wrap: wrap; }
+
+      .scroll-hint { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.5rem; }
+
+      .contact-link { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+      .contact-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">fcezarcode</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#sobre" onclick="closeMenu()">Sobre</a></li>
+      <li><a href="#habilidades" onclick="closeMenu()">Habilidades</a></li>
+      <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- SCROLL HINT -->
+  <div class="scroll-hint" id="scrollHint">Scroll</div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <h1 class="hero-name">
+        Fernando<br><em>Cézar</em>
+      </h1>
+      <div class="hero-meta">
+        <span class="hero-tag">Desenvolvimento Web</span>
+        <div class="hero-divider"></div>
+        <span class="hero-tag">Cibersegurança</span>
+        <div class="hero-divider"></div>
+        <span class="hero-tag">Brasil</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="container">
+      <p class="section-label">01 — Sobre</p>
+      <div class="about-text fade-in">
+        <p>
+          Profissional formado em <span class="about-highlight">Desenvolvimento Web pelo SENAI</span>, com sólida base técnica em construção de interfaces e aplicações para a web. Ao longo da formação, desenvolvi habilidades práticas que vão do planejamento de layout à implementação funcional de sistemas.
+        </p>
+        <p>
+          Atualmente, aprofundo meus conhecimentos em <span class="about-highlight">Cibersegurança</span>, área em que me aprofundo tanto no exercício do ensino superior quanto na identificação de saberes periféricos no campo de estudo.
+        </p>
+        <p>
+          Minha abordagem é orientada à clareza, à aprendizagem contínua e ao trabalho colaborativo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HABILIDADES -->
+  <section id="habilidades">
+    <div class="container">
+      <p class="section-label">02 — Habilidades</p>
+      <div class="skills-grid">
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">HTML & CSS</span>
+          <span class="skill-desc">Estruturação semântica e estilizaçãoresponsiva</span>
+          <span class="skill-category">Desenvolvimento Web</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">JavaScript</span>
+          <span class="skill-desc">Lógica client-side e interatividade</span>
+          <span class="skill-category">Desenvolvimento Web</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">Design UI</span>
+          <span class="skill-desc">Noções de composição visual e usabilidade</span>
+          <span class="skill-category">Design</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">Pacote Office</span>
+          <span class="skill-desc">Word, Excel e PowerPoint</span>
+          <span class="skill-category">Ferramentas</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">Inteligência Artificial</span>
+          <span class="skill-desc">Uso de diferentes IAs para criação, desenvolvimento e otimização de tarefas</span>
+          <span class="skill-category">Ferramentas</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">Comunicação</span>
+          <span class="skill-desc">Interpessoal, escrita, apresentações, inglês intermediário</span>
+          <span class="skill-category">Soft Skills</span>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-name">Cibersegurança</span>
+          <span class="skill-desc">Fundamentos de segurança de redes e sistemas</span>
+          <span class="skill-category">Em formação</span>
+        </div>
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="container">
+      <p class="section-label">03 — Contato</p>
+      <p class="contact-intro fade-in">
+        Disponível para oportunidades, colaborações e conversas sobre tecnologia.
+      </p>
+      <div class="contact-links fade-in">
+
+        <a href="mailto:fcezarcode@gmail.com" class="contact-link">
+          <span class="contact-link-label">E-mail</span>
+          <span class="contact-link-value">fcezarcode@gmail.com</span>
+          <span class="contact-arrow">→</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/fernando-cézar-9180653a2?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">linkedin.com/in/fernando-cézar</span>
+          <span class="contact-arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Fernando Cézar</span>
+    <span>Desenvolvimento Web · Cibersegurança</span>
+  </footer>
+
+  <script>
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    const scrollHint = document.getElementById('scrollHint');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+      scrollHint.classList.toggle('hidden', window.scrollY > 80);
+    });
+
+    // Mobile menu
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+    function closeMenu() { links.classList.remove('open'); }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
